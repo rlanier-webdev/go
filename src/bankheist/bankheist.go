@@ -1,9 +1,9 @@
 package main
 
 import (
-  "fmt"
-  "math/rand"
-  "time"
+	"fmt"
+	"math/rand"
+	"time"
 )
 
 func main() {
@@ -29,23 +29,23 @@ func main() {
 	}
 
 	leftSafely := rand.Intn(5)
-	
+
 	if isHeistOn {
 		switch leftSafely {
-			case 0:
-				isHeistOn = false
-				fmt.Println("Failed")
-			case 1:
-				isHeistOn = false
-				fmt.Println("Turns out vault doors don't open from the inside...")
-			case 2:
-				isHeistOn = false
-				fmt.Println("Close but not yet...")
-			case 3:
-				isHeistOn = false
-				fmt.Println("Still failed bruh...")
-			default:
-				fmt.Println("Start the getaway car!")
+		case 0:
+			isHeistOn = false
+			fmt.Println("Failed")
+		case 1:
+			isHeistOn = false
+			fmt.Println("Turns out vault doors don't open from the inside...")
+		case 2:
+			isHeistOn = false
+			fmt.Println("Close but not yet...")
+		case 3:
+			isHeistOn = false
+			fmt.Println("Still failed bruh...")
+		default:
+			fmt.Println("Start the getaway car!")
 		}
 	}
 
@@ -53,6 +53,6 @@ func main() {
 		amtStolen := 10000 + rand.Intn(1000000)
 		fmt.Println(amtStolen)
 	}
-	
+
 	fmt.Println(isHeistOn)
 }
