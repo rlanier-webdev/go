@@ -2,3 +2,4 @@
 /pkg
 *.exe
 /src/convo
+/src/templates
