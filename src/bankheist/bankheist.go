@@ -7,7 +7,8 @@ import (
 
 func main() {
 	isHeistOn := true
-	eludedGuards := rand.Intn(100)
+
+	eludedGuards := eludeGuards()
 
 	if eludedGuards >= 50 {
 		fmt.Println("Looks like you've managed to make it past the guards. Good job, but remember, this is the first step.")
@@ -16,40 +17,78 @@ func main() {
 		fmt.Println("Plan a better disguise next time?")
 	}
 
+	openedVault := openVault(isHeistOn)
+
+	if openedVault {
+		leftSafely := escapeTheVault()
+		if leftSafely {
+			amtStolen := stealMoney()
+			fmt.Printf("Success! You stole $%d\n", amtStolen)
+		}
+	} else {
+		fmt.Println("You've failed.")
+	}
+}
+
+func eludeGuards() int {
+	var i int
+
+	for {
+		fmt.Println("Enter a number between 1 and 100 (enter 0 to quit):")
+		fmt.Scan(&i)
+
+		if i == 0 {
+			break
+		}
+
+		if i < 0 || i > 100 {
+			fmt.Println("Please enter a number between 1 and 100 or enter 0 to quit.")
+			continue
+		}
+
+		break
+	}
+
+	return i
+}
+
+func openVault(isHeistOn bool) bool {
+	if !isHeistOn {
+		return false
+	}
+
 	openedValut := rand.Intn(100)
 
-	if isHeistOn && openedValut >= 70 {
-		fmt.Println("Grab and GO!")
-	} else if isHeistOn {
-		isHeistOn = false
+	if openedValut >= 70 {
+		fmt.Println("Vault opened!")
+		return true
+	} else {
 		fmt.Println("Vault can't be opened.")
+		return false
+	}
+}
+
+func escapeTheVault() bool {
+	// 50% chance
+	escaped := rand.Intn(2) == 0
+
+	if !escaped {
+		fmt.Println("Failed to escape.")
+		return false
 	}
 
-	leftSafely := rand.Intn(5)
-
-	if isHeistOn {
-		switch leftSafely {
-		case 0:
-			isHeistOn = false
-			fmt.Println("Failed")
-		case 1:
-			isHeistOn = false
-			fmt.Println("Turns out vault doors don't open from the inside...")
-		case 2:
-			isHeistOn = false
-			fmt.Println("Close but not yet...")
-		case 3:
-			isHeistOn = false
-			fmt.Println("Still failed bruh...")
-		default:
-			fmt.Println("Start the getaway car!")
-		}
+	vaultMessages := []string{
+		"Hold on, vault doors are tricky...",
+		"One more try should do it...",
 	}
+	messageIndex := rand.Intn(len(vaultMessages))
+	fmt.Println(vaultMessages[messageIndex])
 
-	if isHeistOn {
-		amtStolen := 10000 + rand.Intn(1000000)
-		fmt.Println(amtStolen)
-	}
+	fmt.Println("Escape successful! Start the car!")
+	return true
+}
 
-	fmt.Println(isHeistOn)
+func stealMoney() int {
+	total := 10000 + rand.Intn(1000000)
+	return total
 }
