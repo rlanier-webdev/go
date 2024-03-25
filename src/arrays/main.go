@@ -18,6 +18,12 @@ func main() {
 
 	arr := []int{x, y, z}
 	
+	// updating a value for a particular element
+	if arr[1] == 5 {
+		arr[1] = 25
+		fmt.Println(arr)
+	}
+
 	fmt.Println("Sum of all elements:", findSum(arr))
 
 	if hasZero(arr) {
@@ -30,6 +36,7 @@ func main() {
 }
 
 // checks if the array contains a zero value and returns true if it does
+
 func hasZero(arr []int) bool {
 	for _, value := range arr {
 		if value == 0 {
@@ -47,4 +54,5 @@ func findSum(arr [] int) int {
 	}
 	return sum
 }
+
 
