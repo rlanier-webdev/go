@@ -2,51 +2,52 @@ package main
 
 import "fmt"
 
+type Book struct {
+	publisher  string
+	writer     string
+	artist     string
+	title      string
+	genre      string
+	year       uint
+	pageNumber uint
+	grade      float32
+}
+
 func main() {
-	var publisher, writer, artist, title, genre string
-	var year, pageNumber uint
-	var grade float32
 
-	// Book 1
-	title = "Mr. GoToSleep"
-	writer = "Tracey Hatchet"
-	artist = "Jewel Tampson"
-	publisher = "DizzyBooks Publishing Inc."
-	year = 1997
-	pageNumber = 14
-	grade = 6.5
-	genre = "Horror"
+	bookOne := Book{
+		"Mr. GoToSleep",
+		"Tracey Hatchet",
+		"Jewel Tampson",
+		"DizzyBooks Publishing Inc.",
+		"Horror",
+		1997,
+		14,
+		6.5,
+	}
+	fmt.Println(bookOne)
 
-	fmt.Println(title, "\nWritten by: ", writer, "\nArtist: ", artist, "\nPublisher: ", publisher, "\nYear: ", year, "\n# of Pages: ", pageNumber, "\nGrade: ", grade, "\nGenre: ", genre)
+	bookTwo := Book{
+		"Dolly Vol. 1",
+		"Ray N. Shawn",
+		"Joy Nails",
+		"Ckode Publishing Inc.",
+		"Non Fiction",
+		2024,
+		18,
+		9.0,
+	}
+	fmt.Println(bookTwo)
 
-	// Book 2
-	title = "Epic Vol. 1"
-	writer = "Ryan N. Shawn"
-	artist = "Phoebe Paperclips"
-	publisher = "DizzyBooks Publishing Inc."
-	year = 2013
-	pageNumber = 160
-	grade = 9.0
-	genre = "Crime"
-
-	fmt.Println("")
-	fmt.Println("")
-
-	fmt.Println(title, "\nWritten by: ", writer, "\nArtist: ", artist, "\nPublisher: ", publisher, "\nYear: ", year, "\n# of Pages: ", pageNumber, "\nGrade: ", grade, "\nGenre: ", genre)
-
-	// Book 3
-	title = "Dolly Vol. 1"
-	writer = "Ray N. Shawn"
-	artist = "Joy Nails"
-	publisher = "Ckode Publishing Inc."
-	year = 2024
-	pageNumber = 18
-	grade = 9.0
-	genre = "Crime"
-	ageRating := "T"
-
-	fmt.Println("")
-	fmt.Println("")
-
-	fmt.Println(title, "\nWritten by: ", writer, "\nArtist: ", artist, "\nPublisher: ", publisher, "\nYear: ", year, "\n# of Pages: ", pageNumber, "\nGrade: ", grade, "\nGenre: ", genre, "\nAge Rating: ", ageRating)
+	bookThree := Book{
+		"Epic Vol. 1",
+		"Ryan N. Shawn",
+		"Phoebe Paperclips",
+		"DizzyBooks Publishing Inc.",
+		"Crime",
+		2013,
+		160,
+		9.0,
+	}
+	fmt.Println(bookThree)
 }
