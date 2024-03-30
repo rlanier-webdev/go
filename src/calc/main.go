@@ -1,24 +1,52 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"math/rand"
+)
+
+func isUndefined(y int) bool {
+	if y == 0 {
+		return true
+	}
+	return false
+}
+func add(x, y int) int {
+	return x + y
+}
+func subtract(x, y int) int {
+	return x - y
+}
+func multipy(x, y int) int {
+	return x * y
+}
+func divide(x, y int) float32 {
+	if isUndefined(y) {
+		return 0
+	} else {
+		return float32(x / y)
+	}
+
+}
 
 func main() {
-	x := 13
-	y := 31
+	x := rand.Intn(10)
+	y := rand.Intn(20)
 
 	// Addition
-	add := x + y
-	fmt.Println("Result of ", x, " + ", y, " =", add)
+	add := add(x, y)
+	fmt.Println("Result of", x, "+", y, "=", add)
 
 	// Subtraction
-	sub := add - y
-	fmt.Println("Result of ", add, " - ", y, " =", sub)
+	sub := subtract(x, y)
+	fmt.Println("Result of", x, "-", y, "=", sub)
 
 	// Multiplication
-	mult := sub * x
-	fmt.Println("Result of ", sub, " * ", x, "=", mult)
+	mult := multipy(x, y)
+	fmt.Println("Result of", x, "*", y, "=", mult)
 
 	// Division
-	div := mult / y
-	fmt.Println("Result of ", mult, " / ", y, " = ", div)
+	// redo this part...figure out the best approach
+	div := divide(x, y)
+	fmt.Printf("\nResult of %d / %d = %.3f", x, y, div)
 }
