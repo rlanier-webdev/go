@@ -1,10 +1,39 @@
-<h1 style="text-align: center; text-transform: uppercase;">Editing {{.Title}}</h1>
+<style>
+     body, div {
+          padding: 10px;
+          text-align: center;
+     }
+     h1 {
+          text-transform: uppercase;
+     }
+     .bodyContainer{
+          display: flex;
+          flex-direction: column;
+          align-content: center;
+          justify-content: center;
+     }
+     .body {
+          margin-bottom: 24px;
+          /*min-height: 150px;*/
+          background-color: khaki;
+     }
+     input[type=button], input[type=submit], input[type=reset] {
+          background-color: #04AA6D;
+          border: none;
+          color: white;
+          padding: 16px 32px;
+          text-decoration: none;
+          margin: 4px 2px;
+          cursor: pointer;
+     }
+</style>
 
-<form style="margin: 10%;" action="/save/{{.Title}}" method="POST">
-     <div>
-          <textarea name="body" rows="20" cols="80">{{printf "%s" .Body}}</textarea>
-     </div>
-     <div>
-          <input type="submit" value="Save">
-     </div>
-</form>
+<h1>Editing {{.Title}}</h1>
+<div >
+     <form action="/save/{{.Title}}" method="POST">
+          <div class="bodyContainer">
+               <textarea class="body" name="body" rows="20" cols="80">{{printf "%s" .Body}}</textarea>
+               <input type="submit" value="Save">
+          </div>
+     </form>
+</div>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Homepage</title>
+</head>
+<style>
+     body, div {
+          padding: 10px;
+     }
+     h1 {
+          text-align: center; 
+          text-transform: uppercase;
+     }
+     .bodyContainer {
+          display: flex;
+          flex-direction: column;
+     }
+     .body {
+          margin-bottom: 24px;
+          min-height: 150px;
+          background-color: khaki;
+          align-content: center;
+          justify-content: center;
+     }
+     a:link, a:visited {
+          color: black;
+     }
+     
+     a:hover, a:active {
+          color: blue;
+     }
+     ul {
+          list-style: none;
+          text-decoration: none;
+     }
+</style>
+<body>
+     <h1>Home</h1>
+     <div class="bodyContainer">
+          <div>
+               <ul>
+                    {{range .Pages}}
+                    <li><a href="/view/{{.Title}}">{{.Title}}</a></li>
+                    {{end}}
+               </ul>
+          </div>
+     </div>
+</body>
