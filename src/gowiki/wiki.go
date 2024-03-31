@@ -16,7 +16,16 @@ type Page struct {
 	Body  []byte //byte slice
 }
 
-var pageDir = "./pages/"
+type Homepage struct {
+	Title string
+	Pages []*Page // Slice of pointers to Page structs
+}
+
+var (
+	pageDir = "./pages/"
+	templates = template.Must(template.ParseFiles("edit.html", "view.html", "home.html"))
+	validPath = regexp.MustCompile("^/(edit|save|view)/([a-zA-Z0-9]+)$") // parse and compile the regular expression, and return a regexp
+)
 
 // This is a method named save that takes as its receiver p, a pointer to Page . It takes no parameters, and returns a value of type error.
 func (p *Page) save() error {
@@ -44,7 +53,7 @@ func loadPage(title string) (*Page, error) {
 	return &Page{Title: title, Body: body}, nil
 }
 
-var templates = template.Must(template.ParseFiles("edit.html", "view.html", "home.html"))
+
 
 // render html files
 func renderTemplate(w http.ResponseWriter, tmpl string, data interface{}) {
@@ -55,8 +64,7 @@ func renderTemplate(w http.ResponseWriter, tmpl string, data interface{}) {
 	}
 }
 
-// parse and compile the regular expression, and return a regexp
-var validPath = regexp.MustCompile("^/(edit|save|view)/([a-zA-Z0-9]+)$")
+
 
 func makeHandler(fn func(http.ResponseWriter, *http.Request, string)) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
@@ -110,11 +118,6 @@ func saveHandler(w http.ResponseWriter, r *http.Request, title string) {
 		http.Redirect(w, r, "/view/"+title, http.StatusFound)
 	}
 
-}
-
-type Homepage struct {
-	Title string
-	Pages []*Page // Slice of pointers to Page structs
 }
 
 func getAvailablePageTitles() ([]*Page, error) {
