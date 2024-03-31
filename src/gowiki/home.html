@@ -38,11 +38,18 @@
      <h1>Home</h1>
      <div class="bodyContainer">
           <div>
+               <a href="/edit/NewPage">New Page</a>
+          </div>
+          <div>
+               {{if (eq (len .Pages) 0)}}
+                    <p>No pages available yet. <a href="/edit/NewPage">Create the first one!</a></p>
+               {{else}}
                <ul>
                     {{range .Pages}}
                     <li><a href="/view/{{.Title}}">{{.Title}}</a></li>
-                    {{end}}
+               {{end}}
                </ul>
+               {{end}}
           </div>
      </div>
 </body>

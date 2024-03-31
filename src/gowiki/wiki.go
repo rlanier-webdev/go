@@ -6,12 +6,10 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"regexp"
 	"path/filepath"
+	"regexp"
 	"strings"
-	
 )
-
 
 type Page struct {
 	Title string
@@ -34,8 +32,8 @@ func (p *Page) save() error {
 // load the page
 func loadPage(title string) (*Page, error) {
 	filename := title + ".txt"
-	
-	body, err := os.ReadFile(pageDir+filename)
+
+	body, err := os.ReadFile(pageDir + filename)
 
 	if err != nil {
 		log.Printf("Error reading file %s: %v\n", filename, err)
@@ -99,14 +97,19 @@ func editHandler(w http.ResponseWriter, r *http.Request, title string) {
 // save page edits
 func saveHandler(w http.ResponseWriter, r *http.Request, title string) {
 	body := r.FormValue("body")
-	p := &Page{Title: title, Body: []byte(body)}
+	newTitle := r.FormValue("title") // Get the new title from the form data
+	p := &Page{Title: newTitle, Body: []byte(body)}
 	err := p.save()
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+	if newTitle != "" {
+		http.Redirect(w, r, "/home/", http.StatusFound)
+	} else {
+		http.Redirect(w, r, "/view/"+title, http.StatusFound)
+	}
 
-	http.Redirect(w, r, "/view/"+title, http.StatusFound)
 }
 
 type Homepage struct {
@@ -117,7 +120,7 @@ type Homepage struct {
 func getAvailablePageTitles() ([]*Page, error) {
 	var pages []*Page
 
-	files, err := os.ReadDir(pageDir) 
+	files, err := os.ReadDir(pageDir)
 	if err != nil {
 		log.Printf("Error reading directory %s: %v\n", pageDir, err)
 		return nil, err
