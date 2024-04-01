@@ -4,7 +4,7 @@ body{
      margin-left: 250px;
      margin-right: 250px;
      background-color: rgb(15 23 42);
-     color: rgb(247, 247, 247);
+     color: rgb(10, 0, 0);
      font-size: 22px;
      font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
@@ -49,6 +49,12 @@ main > div {
      padding-left: 20px;
      margin-bottom: 20px;
 }
+div.body {
+     background-color: #d5d7d8;
+     width: 668px;
+     height: 624px;
+     border-radius: 8px;
+}
 a.btn {
      background-color: #FDDD00;
      border: none;
@@ -91,7 +97,18 @@ p.page a {
      padding: 4%;
      color: #131313;
 }
-
+.form {
+     padding: 4%;
+     display: flex;
+     flex-direction: column;
+     justify-content: center;
+     align-content: center;
+     background-color: #d5d7d8;
+}
+input[type=text], input[type=textarea] {
+     padding: 16px;
+     margin: 16px;
+}
 input[type=button], input[type=submit], input[type=reset] {
      background-color: #00ADD8;
      border: none;
@@ -100,4 +117,7 @@ input[type=button], input[type=submit], input[type=reset] {
      text-decoration: none;
      margin: 4px 2px;
      cursor: pointer;
+}
+footer {
+     color: white;
 }

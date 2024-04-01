@@ -1,6 +1,21 @@
-<h1>Viewing {{.Title}}</h1>
-<div class="bodyContainer">
-     <div class="body">{{printf "%s" .Body}}</div>
-     <a href="/edit/{{.Title}}">edit</a>
-</div>
-<footer>back to <a href="/">home</a></footer>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Homepage</title>
+  <link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+     <header>
+          <img src="/assets/go-logo-white.svg" alt="GO Logo">
+          <h1>Viewing {{.Title}}</h1>
+     </header>
+
+     
+     <main>
+          <div class="body">{{printf "%s" .Body}}</div>
+          <a href="/edit/{{.Title}}">edit</a>
+     </main>
+     <footer>back to <a href="/">home</a></footer>
+
+</body>
+</html>

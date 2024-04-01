@@ -1,10 +1,22 @@
-<h1>Editing {{.Title}}</h1>
-<div >
-     <form action="/save/{{.Title}}" method="POST">
-          <div class="bodyContainer">
-               <input type="text" id="title" name="title" value="{{.Title}}">
-               <textarea class="body" name="body" rows="20" cols="80">{{printf "%s" .Body}}</textarea>
-               <input type="submit" value="Save">
-          </div>
-     </form>
-</div>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Homepage</title>
+  <link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+     <header>
+          <img src="/assets/go-logo-white.svg" alt="GO Logo">
+          <h1>Editing {{.Title}}</h1>
+     </header>
+     <div >
+          <form action="/save/{{.Title}}" method="POST">
+               <div class="form">
+                    <input type="text" id="title" name="title" value="{{.Title}}">
+                    <textarea name="body" rows="20" cols="80">{{printf "%s" .Body}}</textarea>
+                    <input type="submit" value="Save">
+               </div>
+          </form>
+     </div>
+</body>
+</html>
