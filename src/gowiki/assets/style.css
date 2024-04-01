@@ -1,0 +1,103 @@
+body{
+     display: block;
+     margin: 0;
+     margin-left: 250px;
+     margin-right: 250px;
+     background-color: rgb(15 23 42);
+     color: rgb(247, 247, 247);
+     font-size: 22px;
+     font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+header {
+     min-height: 150px;
+     padding: 20px;
+     margin: 8px;
+     display: flex;
+     flex-direction: row;
+     align-items: center;
+     justify-content: center;
+     column-gap: 2%;
+}
+header > img {
+     width: 150px;
+}
+header > h1 > a {
+     color: #00ADD8 !important;
+}
+a {
+     text-decoration: none;
+}
+/* a:link, a:visited {
+     color: #131313;
+}
+
+a:hover, a:active {
+     color: #131313;
+} */
+h1 {
+     text-transform: uppercase;
+     color: #00ADD8;
+}
+main {
+     /* background-color: white; */
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+}
+main > div {
+     padding-top: 20px;
+     padding-left: 20px;
+     margin-bottom: 20px;
+}
+a.btn {
+     background-color: #FDDD00;
+     border: none;
+     color: rgb(15 23 42);
+     padding: 16px 32px;
+     text-decoration: none;
+     margin: 4px 2px;
+     cursor: pointer;
+     border-radius: 4px;
+}
+a.btn:hover {
+     background-color: rgb(243, 212, 11);
+}
+.pages {
+     margin: 24px;
+     list-style: none;
+     text-decoration: none;
+     display: flex;
+     flex-direction: row;
+     flex-wrap: wrap;
+     justify-content: center;
+     align-items: stretch;
+     align-content: stretch;
+}
+.page {
+     margin: 16px;
+     padding: 16px;
+     background-color: #d5d7d8;
+     width: 268px;
+     height: 208px;
+     display: block;
+     flex-grow: 0;
+     flex-shrink: 1;
+     flex-basis: auto;
+     align-self: auto;
+     order: 0;
+     border-radius: 4px;
+}
+p.page a {
+     padding: 4%;
+     color: #131313;
+}
+
+input[type=button], input[type=submit], input[type=reset] {
+     background-color: #00ADD8;
+     border: none;
+     color: white;
+     padding: 16px 32px;
+     text-decoration: none;
+     margin: 4px 2px;
+     cursor: pointer;
+}

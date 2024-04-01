@@ -1,37 +1,3 @@
-<style>
-body, div {
-     padding: 10px;
-     text-align: center;
-}
-h1 {
-     text-align: center; 
-     text-transform: uppercase;
-}
-.bodyContainer {
-     display: flex;
-     flex-direction: column;
-}
-.body {
-     margin-bottom: 24px;
-     min-height: 150px;
-     background-color: khaki;
-     align-content: center;
-     justify-content: center;
-}
-a:link, a:visited {
-     background-color: #f44336;
-     color: white;
-     padding: 8px 24px;
-     text-align: center;
-     text-decoration: none;
-     display: inline-block;
-}
-
-a:hover, a:active {
-     background-color: red;
-}
-</style>
-
 <h1>Viewing {{.Title}}</h1>
 <div class="bodyContainer">
      <div class="body">{{printf "%s" .Body}}</div>

@@ -22,7 +22,7 @@ type Homepage struct {
 }
 
 var (
-	pageDir = "./pages/"
+	pageDir   = "./tmpl/"
 	templates = template.Must(template.ParseFiles("edit.html", "view.html", "home.html"))
 	validPath = regexp.MustCompile("^/(edit|save|view)/([a-zA-Z0-9]+)$") // parse and compile the regular expression, and return a regexp
 )
@@ -53,8 +53,6 @@ func loadPage(title string) (*Page, error) {
 	return &Page{Title: title, Body: body}, nil
 }
 
-
-
 // render html files
 func renderTemplate(w http.ResponseWriter, tmpl string, data interface{}) {
 	err := templates.ExecuteTemplate(w, tmpl+".html", data)
@@ -63,8 +61,6 @@ func renderTemplate(w http.ResponseWriter, tmpl string, data interface{}) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
 }
-
-
 
 func makeHandler(fn func(http.ResponseWriter, *http.Request, string)) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
@@ -155,6 +151,7 @@ func homeHandler(w http.ResponseWriter, r *http.Request) {
 func main() {
 	// handlers
 	http.HandleFunc("/", homeHandler)
+	http.Handle("/assets/", http.StripPrefix("/assets/", http.FileServer(http.Dir("assets"))))
 	http.HandleFunc("/view/", makeHandler(viewHandler))
 	http.HandleFunc("/edit/", makeHandler(editHandler))
 	http.HandleFunc("/save/", makeHandler(saveHandler))
