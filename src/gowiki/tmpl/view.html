@@ -7,15 +7,24 @@
 <body>
      <header>
           <img src="/assets/go-logo-white.svg" alt="GO Logo">
-          <h1>Viewing {{.Title}}</h1>
+          <h1>View</h1>
      </header>
 
      
      <main>
-          <div class="content-body">{{printf "%s" .Body}}</div>
-          <a href="/edit/{{.Title}}">edit</a>
+          <div class="content-body">
+               <div class="body-header">
+                    <h2>{{.Title}}</h2>
+                    <div class="icon-group">
+                         <a href="/edit/{{.Title}}"><i class="fa-regular fa-pen-to-square" alt="edit"></i>
+                         </a><a href=""><i class="fa-solid fa-trash" alt="delete"></i></a>
+                    </div>
+               </div>
+               
+               <div class="view-copy">{{printf "%s" .Body}}</div>
+          </div>
      </main>
      <footer>back to <a href="/">home</a></footer>
-
+     <script src="https://kit.fontawesome.com/3b1ab49e86.js" crossorigin="anonymous"></script>
 </body>
 </html>
