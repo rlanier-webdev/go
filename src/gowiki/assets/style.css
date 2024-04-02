@@ -1,11 +1,11 @@
 body{
      display: block;
      margin: 0;
-     margin-left: 250px;
-     margin-right: 250px;
+     margin-left: 150px;
+     margin-right: 150px;
      background-color: rgb(15 23 42);
      color: rgb(10, 0, 0);
-     font-size: 22px;
+     font-size: 18px;
      font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 header {
@@ -39,7 +39,6 @@ h1 {
      color: #00ADD8;
 }
 main {
-     /* background-color: white; */
      display: flex;
      flex-direction: column;
      align-items: center;
@@ -49,11 +48,60 @@ main > div {
      padding-left: 20px;
      margin-bottom: 20px;
 }
-div.body {
-     background-color: #d5d7d8;
+.content-body, div.form-body {
      width: 668px;
-     height: 624px;
+}
+.content-body {
      border-radius: 8px;
+     background-color: rgb(255, 255, 255);
+     height: 424px;
+}
+div.form-body {
+     margin-top: -50px;
+     background-color: transparent !important;
+}
+form {
+     padding: 4%;
+     display: flex;
+     flex-direction: column;
+     justify-content: center;
+     align-content: center;
+     border: 0px;
+}
+label {
+     font-size: 0.8rem;
+     color: #FDDD00;
+     padding-bottom: 4px;
+}
+textarea {
+     resize: none;
+}
+input[type=text], textarea {
+     padding: 8px;
+     margin-bottom: 16px;
+     border-radius: 8px;
+     border: 0;
+     background-color: rgb(11, 18, 32);
+     color: white;
+}
+input[type=button], input[type=submit], input[type=reset] {
+     background-color: #00ADD8;
+     border: none;
+     color: white;
+     padding: 16px 32px;
+     text-decoration: none;
+     margin: 4px 2px;
+     cursor: pointer;
+     width: 20%;
+     border-radius: 8px;
+}
+.btn-group {
+     display: flex;
+     flex-direction: row-reverse;
+     column-gap: 2%;
+}
+input[type=button] {
+     background-color: #d80000;
 }
 a.btn {
      background-color: #FDDD00;
@@ -69,7 +117,7 @@ a.btn:hover {
      background-color: rgb(243, 212, 11);
 }
 .pages {
-     margin: 24px;
+     margin: 8px;
      list-style: none;
      text-decoration: none;
      display: flex;
@@ -82,7 +130,7 @@ a.btn:hover {
 .page {
      margin: 16px;
      padding: 16px;
-     background-color: #d5d7d8;
+     background-color: rgb(255, 255, 255);
      width: 268px;
      height: 208px;
      display: block;
@@ -97,27 +145,10 @@ p.page a {
      padding: 4%;
      color: #131313;
 }
-.form {
-     padding: 4%;
-     display: flex;
-     flex-direction: column;
-     justify-content: center;
-     align-content: center;
-     background-color: #d5d7d8;
-}
-input[type=text], input[type=textarea] {
-     padding: 16px;
-     margin: 16px;
-}
-input[type=button], input[type=submit], input[type=reset] {
-     background-color: #00ADD8;
-     border: none;
-     color: white;
-     padding: 16px 32px;
-     text-decoration: none;
-     margin: 4px 2px;
-     cursor: pointer;
-}
+
+
 footer {
      color: white;
+     text-align: center;
+     padding: 24px 0;
 }

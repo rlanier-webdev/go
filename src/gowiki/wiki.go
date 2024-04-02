@@ -22,8 +22,8 @@ type Homepage struct {
 }
 
 var (
-	pageDir   = "./tmpl/"
-	templates = template.Must(template.ParseFiles("edit.html", "view.html", "home.html"))
+	pageDir   = "./pages/"
+	templates = template.Must(template.ParseFiles("tmpl/edit.html", "tmpl/view.html", "tmpl/home.html"))
 	validPath = regexp.MustCompile("^/(edit|save|view)/([a-zA-Z0-9]+)$") // parse and compile the regular expression, and return a regexp
 )
 
