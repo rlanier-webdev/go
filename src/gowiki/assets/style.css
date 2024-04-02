@@ -41,6 +41,7 @@ h1 {
 }
 h2 {
      font-size: 20px;
+     color: rgb(15 23 42);
 }
 main {
      display: flex;
@@ -55,6 +56,7 @@ main > div {
      display: flex;
      flex-direction: row;
      justify-content: space-between;
+     margin-bottom: 8px;
 }
 .content-body, div.form-body {
      width: 668px;
@@ -158,9 +160,6 @@ footer {
      text-align: center;
      padding: 24px 0;
 }
-i.fa-pen-to-square {
-     color: #00ADD8;
-}
 .icon-group {
      display: flex;
      flex-direction: row;
@@ -169,6 +168,13 @@ i.fa-pen-to-square {
      margin: 16px;
      margin-right: 24px;
 }
+.fa-pen-to-square, .fa-trash {
+     color: rgb(15 23 42);
+}
+.fa-pen-to-square:hover, .fa-trash:hover {
+     color: rgb(40, 64, 116);
+}
 .view-copy {
      margin: 0;
+     margin-right: 16px;
 }

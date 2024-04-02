@@ -115,6 +115,42 @@ func saveHandler(w http.ResponseWriter, r *http.Request, title string) {
 	}
 
 }
+func delHandler(w http.ResponseWriter, r *http.Request, title string) {
+	filename := pageDir + title + ".txt"
+	if err := delFile(filename); err != nil {
+		log.Printf("Error deleting file %s: %v\n", title, err)
+		if os.IsNotExist(err) {
+			// File does not exist, redirect to edit page
+			http.Redirect(w, r, "/edit/"+title, http.StatusFound)
+			return
+		}
+		// Handle other errors appropriately
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+
+	// Redirect to the home page after successful deletion
+	http.Redirect(w, r, "/home/", http.StatusFound)
+}
+
+func delFile(filename string) error {
+	// Check if file exists
+	if _, err := os.Stat(filename); os.IsNotExist(err) {
+		// File does not exist, return without error
+		return nil
+	} else if err != nil {
+		// Other errors, return the error
+		return err
+	}
+
+	// Attempt to remove the file
+	if err := os.Remove(filename); err != nil {
+		return err
+	}
+
+	return nil
+}
+
 
 func getAvailablePageTitles() ([]*Page, error) {
 	var pages []*Page
@@ -155,6 +191,7 @@ func main() {
 	http.HandleFunc("/view/", makeHandler(viewHandler))
 	http.HandleFunc("/edit/", makeHandler(editHandler))
 	http.HandleFunc("/save/", makeHandler(saveHandler))
+	http.HandleFunc("/del/", makeHandler(delHandler))
 
 	fmt.Println("Server listening on port 8080")
 	log.Fatal(http.ListenAndServe(":8080", nil))
