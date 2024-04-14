@@ -5,6 +5,7 @@ import (
 	"net/http"
 )
 
+
 func main() {
 	fs := http.FileServer(http.Dir("./tmpl"))
 	http.Handle("/", fs)
