@@ -3,3 +3,4 @@
 *.exe
 /src/convo
 /src/templates
+src/_codecademy/bankheist/bankheistv2.go
