@@ -102,17 +102,41 @@ func editHandler(w http.ResponseWriter, r *http.Request, title string) {
 func saveHandler(w http.ResponseWriter, r *http.Request, title string) {
 	body := r.FormValue("body")
 	newTitle := r.FormValue("title") // Get the new title from the form data
-	p := &Page{Title: newTitle, Body: []byte(body)}
-	err := p.save()
+
+	// Load the existing page
+	p, err := loadPage(title)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		p = &Page{Title: title}
+	}
+
+	// Check if the title has been changed
+	if newTitle != title {
+		// Delete the old note
+		filename := pageDir + title + ".txt"
+		if err := delFile(filename); err != nil {
+			http.Error(w, "Failed to delete old note", http.StatusInternalServerError)
+			return
+		}
+	}
+
+	// Update the page with the new title and body
+	p.Title = newTitle
+	p.Body = []byte(body)
+
+	// Save the updated page
+	err = p.save()
+	if err != nil {
+		http.Error(w, "Failed to save note", http.StatusInternalServerError)
 		return
 	}
-	if newTitle != "" {
-		http.Redirect(w, r, "/home/", http.StatusFound)
-	} else {
-		http.Redirect(w, r, "/view/"+title, http.StatusFound)
-	}
+	// Redirect to the view page
+	http.Redirect(w, r, "/view/"+newTitle, http.StatusFound)
+
+	// if newTitle != "" {
+	// 	http.Redirect(w, r, "/home/", http.StatusFound)
+	// } else {
+	// 	http.Redirect(w, r, "/view/"+title, http.StatusFound)
+	// }
 
 }
 func delHandler(w http.ResponseWriter, r *http.Request, title string) {
@@ -150,7 +174,6 @@ func delFile(filename string) error {
 
 	return nil
 }
-
 
 func getAvailablePageTitles() ([]*Page, error) {
 	var pages []*Page
