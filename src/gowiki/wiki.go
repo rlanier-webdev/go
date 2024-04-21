@@ -5,6 +5,7 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"net/url"
 	"os"
 	"path/filepath"
 	"regexp"
@@ -24,12 +25,12 @@ type Homepage struct {
 var (
 	pageDir   = "./pages/"
 	templates = template.Must(template.ParseFiles("tmpl/edit.html", "tmpl/view.html", "tmpl/home.html"))
-	validPath = regexp.MustCompile("^/(edit|save|view)/([a-zA-Z0-9]+)$") // parse and compile the regular expression, and return a regexp
+	validPath = regexp.MustCompile("^/(edit|save|view)/([a-zA-Z0-9%-]+(?:%20[a-zA-Z0-9%-]+)*)$") // Updated pattern to allow spaces (%20) in the title
 )
 
 // This is a method named save that takes as its receiver p, a pointer to Page . It takes no parameters, and returns a value of type error.
-func (p *Page) save() error {
-	filename := pageDir + p.Title + ".txt" // save the Page's Body to a text file.
+func (p *Page) save(title string) error {
+	filename := pageDir + title + ".txt" // save the Page's Body to a text file.
 	err := os.WriteFile(filename, p.Body, 0600)
 	if err != nil {
 		log.Printf("Error saving page %s: %v\n", p.Title, err)
@@ -38,9 +39,15 @@ func (p *Page) save() error {
 	return nil
 }
 
-// load the page
+// load the main page
 func loadPage(title string) (*Page, error) {
-	filename := title + ".txt"
+	// Decode the title if necessary
+	decodedTitle, err := url.PathUnescape(title)
+	if err != nil {
+		return nil, err
+	}
+
+	filename := decodedTitle + ".txt"
 
 	body, err := os.ReadFile(pageDir + filename)
 
@@ -50,7 +57,7 @@ func loadPage(title string) (*Page, error) {
 		return nil, err
 	}
 
-	return &Page{Title: title, Body: body}, nil
+	return &Page{Title: decodedTitle, Body: body}, nil
 }
 
 // render html files
@@ -64,9 +71,10 @@ func renderTemplate(w http.ResponseWriter, tmpl string, data interface{}) {
 
 func makeHandler(fn func(http.ResponseWriter, *http.Request, string)) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		// Here we will extract the page title from the Request,
-		// and call the provided handler 'fn'
+		fmt.Println("Make Handler", r.URL.Path)
+		// Here we will extract the page title from the Request, and call the provided handler 'fn'
 		m := validPath.FindStringSubmatch(r.URL.Path)
+		
 		if m == nil {
 			http.NotFound(w, r)
 			return
@@ -77,13 +85,19 @@ func makeHandler(fn func(http.ResponseWriter, *http.Request, string)) http.Handl
 
 // allow users to VIEW a wiki page
 func viewHandler(w http.ResponseWriter, r *http.Request, title string) {
-	p, err := loadPage(title)
+	// Replace hyphens with spaces in the title for rendering on the page
+	renderedTitle := strings.ReplaceAll(title, "-", " ")
+
+	p, err := loadPage(renderedTitle)
+
 	// if the requested Page doesn't exist, it should redirect the client to the edit Page so the content may be created
 	if err != nil {
 		log.Printf("Error handling view request for %s: %v\n", title, err)
 		http.Redirect(w, r, "/edit/"+title, http.StatusFound)
 		return
 	}
+	// Pass the rendered title to the template
+	p.Title = renderedTitle
 
 	renderTemplate(w, "view", p)
 }
@@ -99,9 +113,13 @@ func editHandler(w http.ResponseWriter, r *http.Request, title string) {
 }
 
 // save page edits
+// save page edits
 func saveHandler(w http.ResponseWriter, r *http.Request, title string) {
 	body := r.FormValue("body")
 	newTitle := r.FormValue("title") // Get the new title from the form data
+
+	// Replace spaces with hyphens in the title
+	newTitleWithHyphens := strings.ReplaceAll(newTitle, " ", "-")
 
 	// Load the existing page
 	p, err := loadPage(title)
@@ -110,7 +128,7 @@ func saveHandler(w http.ResponseWriter, r *http.Request, title string) {
 	}
 
 	// Check if the title has been changed
-	if newTitle != title {
+	if newTitleWithHyphens != title {
 		// Delete the old note
 		filename := pageDir + title + ".txt"
 		if err := delFile(filename); err != nil {
@@ -124,21 +142,16 @@ func saveHandler(w http.ResponseWriter, r *http.Request, title string) {
 	p.Body = []byte(body)
 
 	// Save the updated page
-	err = p.save()
+	err = p.save(newTitleWithHyphens) // Corrected to use newTitleWithHyphens
 	if err != nil {
 		http.Error(w, "Failed to save note", http.StatusInternalServerError)
 		return
 	}
 	// Redirect to the view page
-	http.Redirect(w, r, "/view/"+newTitle, http.StatusFound)
-
-	// if newTitle != "" {
-	// 	http.Redirect(w, r, "/home/", http.StatusFound)
-	// } else {
-	// 	http.Redirect(w, r, "/view/"+title, http.StatusFound)
-	// }
-
+	http.Redirect(w, r, "/view/"+newTitleWithHyphens, http.StatusFound)
 }
+
+
 func delHandler(w http.ResponseWriter, r *http.Request, title string) {
 	filename := pageDir + title + ".txt"
 	if err := delFile(filename); err != nil {
