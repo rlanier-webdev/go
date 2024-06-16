@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Homepage</title>
+  <link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+     <header>
+          <img src="/assets/go-logo-white.svg" alt="GO Logo">
+          <h1>Editing {{.Title}}</h1>
+     </header>
+     <main>
+          <div class="form-body">
+               <form action="/save/{{.Title}}" method="POST">
+                    <label for="title">Title</label>
+                    <input type="text" id="title" name="title" value="{{.Title}}">
+                    <label for="title">Body</label>
+                    <textarea name="body" rows="10" cols="80">{{printf "%s" .Body}}</textarea>
+                    <div class="btn-group">
+                         <input type="submit" value="Save">
+                         <input type="button" onclick="history.back()" value="Cancel">
+                    </div>
+                    
+               </form>
+          </div>
+     </main>
+ 
+</body>
+</html>

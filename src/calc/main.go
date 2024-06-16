@@ -30,23 +30,26 @@ func divide(x, y int) float32 {
 }
 
 func main() {
+	var input int
 	x := rand.Intn(10)
-	y := rand.Intn(20)
+	
+	fmt.Print("Enter a number: ")
+	fmt.Scanln(&input)
 
 	// Addition
-	add := add(x, y)
-	fmt.Println("Result of", x, "+", y, "=", add)
+	add := add(x, input)
+	fmt.Println("Result of", x, "+", input, "=", add)
 
 	// Subtraction
-	sub := subtract(x, y)
-	fmt.Println("Result of", x, "-", y, "=", sub)
+	sub := subtract(x, input)
+	fmt.Println("Result of", x, "-", input, "=", sub)
 
 	// Multiplication
-	mult := multipy(x, y)
-	fmt.Println("Result of", x, "*", y, "=", mult)
+	mult := multipy(x, input)
+	fmt.Println("Result of", x, "*", input, "=", mult)
 
 	// Division
 	// redo this part...figure out the best approach
-	div := divide(x, y)
-	fmt.Printf("\nResult of %d / %d = %.3f", x, y, div)
+	div := divide(x, input)
+	fmt.Printf("\nResult of %d / %d = %.3f", x, input, div)
 }

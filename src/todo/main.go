@@ -24,7 +24,7 @@ type Homepage struct {
 
 var (
 	pageDir   = "./pages/"
-	templates = template.Must(template.ParseFiles("tmpl/edit.html", "tmpl/view.html", "tmpl/home.html"))
+	templates = template.Must(template.ParseFiles("templates/edit.html", "templates/view.html", "templates/home.html"))
 	validPath = regexp.MustCompile("^/(edit|save|view)/([a-zA-Z0-9%-]+(?:%20[a-zA-Z0-9%-]+)*)$") // Updated pattern to allow spaces (%20) in the title
 )
 
@@ -61,10 +61,10 @@ func loadPage(title string) (*Page, error) {
 }
 
 // render html files
-func renderTemplate(w http.ResponseWriter, tmpl string, data interface{}) {
-	err := templates.ExecuteTemplate(w, tmpl+".html", data)
+func renderTemplate(w http.ResponseWriter, templates string, data interface{}) {
+	err := templates.ExecuteTemplate(w, templates+".html", data)
 	if err != nil {
-		log.Printf("Error rendering template %s: %v\n", tmpl, err)
+		log.Printf("Error rendering template %s: %v\n", templates, err)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
 }
@@ -83,7 +83,7 @@ func makeHandler(fn func(http.ResponseWriter, *http.Request, string)) http.Handl
 	}
 }
 
-// allow users to VIEW a wiki page
+// allow users to VIEW a task page
 func viewHandler(w http.ResponseWriter, r *http.Request, title string) {
 	// Replace hyphens with spaces in the title for rendering on the page
 	renderedTitle := strings.ReplaceAll(title, "-", " ")
@@ -102,7 +102,7 @@ func viewHandler(w http.ResponseWriter, r *http.Request, title string) {
 	renderTemplate(w, "view", p)
 }
 
-// allow users to EDIT a wiki page
+// allow users to EDIT a task page
 func editHandler(w http.ResponseWriter, r *http.Request, title string) {
 	p, err := loadPage(title)
 	if err != nil {
