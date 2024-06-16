@@ -5,3 +5,4 @@
 /src/templates
 src/_codecademy/bankheist/bankheistv2.go
 /src/project_euler
+src/jwt-auth/.env
