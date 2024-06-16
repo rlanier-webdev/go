@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Homepage</title>
+  <link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+     <header>
+          <img src="/assets/go-logo-white.svg" alt="GO Logo">
+          <h1><a href="https://go.dev/doc/articles/wiki/#tmp_9" target="_blank">Writing Web Applications</a></h1>
+     </header>
+     
+     <main>
+          <div>
+               <a class="btn" href="/edit/EditMe">Create a New Page</a>
+          </div>
+          <div class="pages">
+               {{if (eq (len .Pages) 0)}}
+                    <p>No pages available yet.</a></p>
+               {{else}}
+                    {{range .Pages}}
+                    <p class="page"><a href="/view/{{.Title}}">{{.Title}}</a></p>
+                    {{end}}
+               {{end}}
+          </div>
+     </main>
+     <footer></footer>
+     <script src="https://kit.fontawesome.com/3b1ab49e86.js" crossorigin="anonymous"></script>
+</body>
+<html>
