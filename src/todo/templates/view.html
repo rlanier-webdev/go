@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Homepage</title>
+  <link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+     <header>
+          <img src="/assets/go-logo-white.svg" alt="GO Logo">
+          <h1>Viewing</h1>
+     </header>
+
+     
+     <main>
+          <div class="content-body">
+               <div class="body-header">
+                    <h2>{{.Title}}</h2>
+                    <div class="icon-group">
+                         <a href="/edit/{{.Title}}"><i class="fa-regular fa-pen-to-square" title="edit"></i>
+                         </a><a href="/del/{{.Title}}"><i class="fa-solid fa-trash" title="delete"></i></a>
+                    </div>
+               </div>
+               
+               <div class="view-copy">{{printf "%s" .Body}}</div>
+          </div>
+     </main>
+     <footer>back to <a href="/">home</a></footer>
+     <script src="https://kit.fontawesome.com/3b1ab49e86.js" crossorigin="anonymous"></script>
+</body>
+</html>
