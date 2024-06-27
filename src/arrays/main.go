@@ -12,9 +12,7 @@ import (
 )
 
 func main() {
-	x := rand.Intn(10)
-	y := rand.Intn(10)
-	z := rand.Intn(10)
+	x, y, z := rand.Intn(10), rand.Intn(10), rand.Intn(10)
 
 	arr := []int{x, y, z}
 	
