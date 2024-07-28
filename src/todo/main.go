@@ -25,12 +25,12 @@ type Homepage struct {
 var (
 	pageDir   = "./pages/"
 	templates = template.Must(template.ParseFiles("templates/edit.html", "templates/view.html", "templates/home.html"))
-	validPath = regexp.MustCompile("^/(edit|save|view)/([a-zA-Z0-9%-]+(?:%20[a-zA-Z0-9%-]+)*)$") // Updated pattern to allow spaces (%20) in the title
+	validPath = regexp.MustCompile("^/(edit|save|view|del)/([a-zA-Z0-9%-]+(?:%20[a-zA-Z0-9%-]+)*)$")
 )
 
 // This is a method named save that takes as its receiver p, a pointer to Page . It takes no parameters, and returns a value of type error.
 func (p *Page) save(title string) error {
-	filename := pageDir + title + ".txt" // save the Page's Body to a text file.
+	filename := filepath.Join(pageDir + title + ".txt") // save the Page's Body to a text file.
 	err := os.WriteFile(filename, p.Body, 0600)
 	if err != nil {
 		log.Printf("Error saving page %s: %v\n", p.Title, err)
@@ -47,9 +47,9 @@ func loadPage(title string) (*Page, error) {
 		return nil, err
 	}
 
-	filename := decodedTitle + ".txt"
+	filename := filepath.Join(pageDir, decodedTitle+".txt")
 
-	body, err := os.ReadFile(pageDir + filename)
+	body, err := os.ReadFile(filename)
 
 	if err != nil {
 		log.Printf("Error reading file %s: %v\n", filename, err)
@@ -61,10 +61,10 @@ func loadPage(title string) (*Page, error) {
 }
 
 // render html files
-func renderTemplate(w http.ResponseWriter, templates string, data interface{}) {
-	err := templates.ExecuteTemplate(w, templates+".html", data)
+func renderTemplate(w http.ResponseWriter, tmpl string, data interface{}) {
+	err := templates.ExecuteTemplate(w, tmpl+".html", data)
 	if err != nil {
-		log.Printf("Error rendering template %s: %v\n", templates, err)
+		log.Printf("Error rendering template %s: %v\n", tmpl, err)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
 }
@@ -74,7 +74,7 @@ func makeHandler(fn func(http.ResponseWriter, *http.Request, string)) http.Handl
 		fmt.Println("Make Handler", r.URL.Path)
 		// Here we will extract the page title from the Request, and call the provided handler 'fn'
 		m := validPath.FindStringSubmatch(r.URL.Path)
-		
+
 		if m == nil {
 			http.NotFound(w, r)
 			return
@@ -89,8 +89,6 @@ func viewHandler(w http.ResponseWriter, r *http.Request, title string) {
 	renderedTitle := strings.ReplaceAll(title, "-", " ")
 
 	p, err := loadPage(renderedTitle)
-
-	// if the requested Page doesn't exist, it should redirect the client to the edit Page so the content may be created
 	if err != nil {
 		log.Printf("Error handling view request for %s: %v\n", title, err)
 		http.Redirect(w, r, "/edit/"+title, http.StatusFound)
@@ -98,7 +96,6 @@ func viewHandler(w http.ResponseWriter, r *http.Request, title string) {
 	}
 	// Pass the rendered title to the template
 	p.Title = title
-
 	renderTemplate(w, "view", p)
 }
 
@@ -129,7 +126,7 @@ func saveHandler(w http.ResponseWriter, r *http.Request, title string) {
 	// Check if the title has been changed
 	if newTitleWithHyphens != title {
 		// Delete the old note
-		filename := pageDir + title + ".txt"
+		filename := filepath.Join(pageDir + title + ".txt")
 		if err := delFile(filename); err != nil {
 			http.Error(w, "Failed to delete old note", http.StatusInternalServerError)
 			return
@@ -150,9 +147,8 @@ func saveHandler(w http.ResponseWriter, r *http.Request, title string) {
 	http.Redirect(w, r, "/view/"+newTitleWithHyphens, http.StatusSeeOther)
 }
 
-
 func delHandler(w http.ResponseWriter, r *http.Request, title string) {
-	filename := pageDir + title + ".txt"
+	filename := filepath.Join(pageDir + title + ".txt")
 	if err := delFile(filename); err != nil {
 		log.Printf("Error deleting file %s: %v\n", title, err)
 		if os.IsNotExist(err) {
@@ -166,16 +162,14 @@ func delHandler(w http.ResponseWriter, r *http.Request, title string) {
 	}
 
 	// Redirect to the home page after successful deletion
-	http.Redirect(w, r, "/home/", http.StatusFound)
+	http.Redirect(w, r, "/", http.StatusFound)
 }
 
 func delFile(filename string) error {
 	// Check if file exists
 	if _, err := os.Stat(filename); os.IsNotExist(err) {
-		// File does not exist, return without error
 		return nil
 	} else if err != nil {
-		// Other errors, return the error
 		return err
 	}
 
